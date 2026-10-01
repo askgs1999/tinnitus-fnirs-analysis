@@ -10,7 +10,7 @@
 
 clear; clc;
 
-file   = 'Audiograms_by_group.xlsx';
+file   = 'S1_Table.xlsx';
 groups = {'Controls', 'Tinnitus'};
 freqs  = [250 500 1000 2000 3000 4000 6000 8000];
 ptaIdx = [2 3 4 6];          % positions of 500, 1000, 2000, 4000 Hz in freqs
