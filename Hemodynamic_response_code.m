@@ -152,7 +152,7 @@ ODdata = odJob.run(raw);   % OD is nirs.core.Data (same size as raw)
 % quick sanity check
 % ODdata(1).draw
 % title('Optical Density (OD)')
-clc;
+
 
 %% Step 3 : Motion Correction using TDDR
 job = nirs.modules.TDDR();
@@ -484,7 +484,7 @@ roi_labels = {
     'Temporal_Sup_R', 'Temporal_Mid_R', 'Temporal_Inf_R', ...
     'Supramarginal_L', 'Supramarginal_R', ...
     'Postcentral_L', 'Postcentral_R', ...
-%     'Angular_L', 'Angular_R'
+    'Angular_L', 'Angular_R'
 };
 
 nonroi_labels = {
@@ -492,7 +492,7 @@ nonroi_labels = {
     'Cuneus_L', 'Cuneus_R', 'Lingual_R', 'Calcarine_L', ...
     'Frontal_Mid_L', 'Frontal_Mid_R', ...
     'Frontal_Sup_L', 'Frontal_Sup_R', ...
-%     'Frontal_Inf_Tri_R', 'Frontal_Inf_Oper_L'
+    'Frontal_Inf_Tri_R', 'Frontal_Inf_Oper_L'
 };
 
 %% Step 12: Control Group:  FUNCTIONAL VALIDATION OF ROI 
@@ -1429,7 +1429,7 @@ nonroi_labels = {
     'Cuneus_L', 'Cuneus_R', 'Lingual_R', 'Calcarine_L', ...
     'Frontal_Mid_L', 'Frontal_Mid_R', ...
     'Frontal_Sup_L', 'Frontal_Sup_R', ...
-%     'Frontal_Inf_Tri_R', 'Frontal_Inf_Oper_L'
+    'Frontal_Inf_Tri_R', 'Frontal_Inf_Oper_L'
 };
 
 
@@ -1627,12 +1627,12 @@ Data      = TinnitusData;
 frontal_labels = {
     'Frontal_Mid_L','Frontal_Mid_R', ...
     'Frontal_Sup_L','Frontal_Sup_R', ...
-%     'Frontal_Inf_Tri_R','Frontal_Inf_Oper_L'
+    'Frontal_Inf_Tri_R','Frontal_Inf_Oper_L'
 };
 
 occipital_labels = {
     'Occipital_Sup_L','Occipital_Mid_L','Occipital_Sup_R','Occipital_Mid_R', ...
-%     'Cuneus_L','Cuneus_R','Lingual_R','Calcarine_L'
+     'Cuneus_L','Cuneus_R','Lingual_R','Calcarine_L'
 };
 
 fs       = Data(1).Fs;
