@@ -1,4 +1,4 @@
-%%  Supplementary analyses performed 
+%%  Supplementary analyses performed  (v1.1.0, PTA-4 corrected)
 
 %  Satish G, Taylor LM, Arnold MP, Gallagher-Shale J, Krishnamurthy K,
 %  Basura GJ. Subjective tinnitus distress correlates with cortical
@@ -51,15 +51,17 @@
 %    builds the audiometric table that Analysis 5 needs.
 %
 %  AUDIOMETRIC DATA
-%    Four-frequency pure-tone averages and ages are entered directly in the
-%    Analysis 1, transcribed from the audiologist's records, because
-%    they are not held in the fNIRS data files. Control ages appear a second
-%    time in the Point 13 section, ordered to match the hemodynamic curve
-%    matrices.
+%    Four-frequency pure-tone averages (500, 1000, 2000, 4000 Hz) and ages
+%    are entered directly in Analysis 1, because they are not held in the
+%    fNIRS data files. PTA-4 values were recalculated from the original
+%    audiograms and match S1_Table.xlsx. Tinnitus08 has no frequency-specific
+%    audiogram, so its PTA-4 is NaN and it is left out of every PTA analysis.
+%    Control ages appear a second time in the Point 13 section, ordered to
+%    match the hemodynamic curve matrices.
 %
 %  OUTPUT
 %    Result tables are written to RESULTS_DIR as CSV files and assigned to
-%    the base workspace. No figures are produced.
+%    the base workspace. Analysis 3 also draws one diagnostic figure.
 
 
 clearvars; close all; clc;
@@ -163,7 +165,7 @@ testForScore = @(scoreName) ternaryTest(contains(lower(scoreName),'thi'));
 
 
 %% Analysis 1
-%  POINT 4 — COMPLETE  
+%  POINT 4 — COMPLETE
 %  (1) report thresholds
 %  (2) does sensation level predict response amplitude?
 %      - within tinnitus group
@@ -178,7 +180,9 @@ testForScore = @(scoreName) ternaryTest(contains(lower(scoreName),'thi'));
 
 STOP_ON_ID_MISMATCH = true;
 
-% PTA AND AGE LOOKUPS  (from PTA_aim1.docx)
+% PTA AND AGE LOOKUPS
+% PTA-4 recalculated from the original audiograms (matches S1_Table.xlsx).
+% Tinnitus08 has no frequency-specific audiogram -> NaN.
 
 tinnIDs = {'Tinnitus01','Tinnitus12','Tinnitus13','Tinnitus18','Tinnitus19', ...
            'Tinnitus21','Tinnitus23','Tinnitus28','Tinnitus32','Tinnitus34', ...
@@ -186,10 +190,10 @@ tinnIDs = {'Tinnitus01','Tinnitus12','Tinnitus13','Tinnitus18','Tinnitus19', ...
            'Tinnitus47','Tinnitus59','Tinnitus61','Tinnitus62','Tinnitus69', ...
            'Tinnitus03','Tinnitus70','Tinnitus04','Tinnitus05','Tinnitus06', ...
            'Tinnitus07','Tinnitus08'};
-tinnR   = [15 8.75 20 25 26.75 15 23.75 21.75 21.75 30 6.25 13.75 11.25 27.5 ...
-           2.5 20 10 12.5 16.5 18.75 16.75 17.5 12.5 13.75 30 30 10];
-tinnL   = [20 7.5 12.5 28.75 30 18.75 17.5 22.5 20 30 5 12.5 20 27.5 ...
-           5 16.75 15 15 17.5 21.25 18.75 15 13.75 18.75 27.5 28.75 7];
+tinnR   = [15 8.75 17.5 25 26.25 15 23.75 21.25 21.25 30 6.25 13.75 11.25 27.5 ...
+           2.5 20 10 12.5 16.25 18.75 16.25 17.5 12.5 13.75 30 30 NaN];
+tinnL   = [20 7.5 15 28.75 31.25 18.75 17.5 22.5 20 30 5 12.5 20 27.5 ...
+           5 16.25 15 15 17.5 21.25 18.75 15 13.75 18.75 27.5 28.75 NaN];
 tinnAge = [45 63 63 70 52 63 61 65 69 72 49 59 70 68 65 68 66 63 65 60 62 64 46 64 54 65 53];
 
 ctrlIDs = {'Tinnitus09','Tinnitus26','Tinnitus25','Tinnitus27','Tinnitus31', ...
@@ -198,10 +202,10 @@ ctrlIDs = {'Tinnitus09','Tinnitus26','Tinnitus25','Tinnitus27','Tinnitus31', ...
            'Tinnitus60','Tinnitus63','Tinnitus64','Tinnitus65','Tinnitus66', ...
            'Tinnitus67','Tinnitus68','Tinnitus73','Tinnitus16','Tinnitus17', ...
            'Tinnitus20','Tinnitus24'};
-ctrlR   = [10 10 8.75 6.23 12.5 8.75 18.75 8.75 20 6.25 17.5 8.75 2.5 11.25 ...
-           11.25 21.25 16.75 17.5 13.75 10 10 8.75 22.5 8.75 7.5 25 7.5];
-ctrlL   = [8 6.25 10 11.25 15 13.75 22.5 10 25 7.5 17.5 8.75 2.5 16.25 ...
-           10 18.75 13.75 12.5 7.5 16.25 8.75 13.75 13.75 12.5 7.5 26.25 7.5];
+ctrlR   = [8.75 10 8.75 6.25 12.5 5 18.75 8.75 20 6.25 17.5 8.75 2.5 11.25 ...
+           11.25 21.25 16.25 18.75 11.25 7.5 10 8.75 22.5 8.75 7.5 25 7.5];
+ctrlL   = [10 6.25 10 11.25 15 11.25 22.5 10 25 7.5 17.5 8.75 2.5 16.25 ...
+           10 18.75 13.75 21.25 12.5 16.25 6.25 13.75 13.75 12.5 6.25 26.25 2.5];
 ctrlAge = [45 41 33 41 39 35 30 69 62 62 60 62 69 53 69 62 52 69 62 60 65 51 59 59 62 50 59];
 
 assert(isequal(numel(tinnIDs),numel(tinnR),numel(tinnL),numel(tinnAge)), 'tinnitus vector length mismatch');
@@ -234,16 +238,17 @@ fprintf('%s\n', repmat('-',1,96));
 for v = {'PTA','PTA_R','PTA_L','Age'}
     a = AudTbl.(v{1})(AudTbl.Group==1);
     b = AudTbl.(v{1})(AudTbl.Group==0);
+    a = a(isfinite(a)); b = b(isfinite(b));      % drop participants without PTA-4
     [~,pv,~,sv] = ttest2(a, b, 'Vartype','unequal');
     spool = sqrt(((numel(a)-1)*var(a) + (numel(b)-1)*var(b)) / (numel(a)+numel(b)-2));
-    fprintf('%-14s %6.2f (%5.2f) %5.2f-%5.2f  %6.2f (%5.2f) %5.2f-%5.2f  t(%.1f)=%+.3f p=%.4f d=%.3f\n', ...
+    fprintf('%-14s %6.2f (%5.2f) %5.2f-%5.2f  %6.2f (%5.2f) %5.2f-%5.2f  t(%.1f)=%+.3f p=%.4f d=%.3f (n=%d vs %d)\n', ...
         v{1}, mean(a), std(a), min(a), max(a), mean(b), std(b), min(b), max(b), ...
-        sv.df, sv.tstat, pv, (mean(a)-mean(b))/spool);
+        sv.df, sv.tstat, pv, (mean(a)-mean(b))/spool, numel(a), numel(b));
 end
 fprintf('\nPTA > 25 dB HL : tinnitus %d/%d, control %d/%d\n', ...
-    sum(pT>25), numel(pT), sum(pC>25), numel(pC));
+    sum(pT>25), sum(isfinite(pT)), sum(pC>25), sum(isfinite(pC)));
 fprintf('All participants <= 30 dB HL : tinnitus %d/%d, control %d/%d\n', ...
-    sum(pT<=30), numel(pT), sum(pC<=30), numel(pC));
+    sum(pT<=30), sum(isfinite(pT)), sum(pC<=30), sum(isfinite(pC)));
 
 % 2) LOAD CONTROL HbO
 
@@ -601,7 +606,7 @@ fprintf('#################################################################\n');
 
 %  POINT 10 ROBUSTNESS CHECKS: dTFI vs late ISR HbO (ROI)
 
-% ---- SET THE VARIABLES 
+% ---- SET THE VARIABLES
 x = MergedTbl.late_ISR;      % late-window ISR HbO, auditory ROI
 y = MergedTbl.Delta_TFI;     % change in TFI (Post - Pre)
 ok = isfinite(x) & isfinite(y);
@@ -609,7 +614,7 @@ x  = x(ok);
 y  = y(ok);
 n  = numel(x);
 
-% ---- SANITY CHECK: 
+% ---- SANITY CHECK:
 fprintf('\n--- SANITY CHECK ---\n');
 fprintf('n            = %d          (expected 27)\n', n);
 fprintf('x range      = %+.3f to %+.3f   (expected about -0.32 to 0.30)\n', min(x), max(x));
@@ -743,7 +748,7 @@ fprintf('\n============ END ROBUSTNESS CHECKS ============\n');
 %         25 items, yes=4 / sometimes=2 / no=0. Score = item sum.
 %         Functional 11 (max 44), Emotional 9 (max 36),
 %         Catastrophic 5 (max 20). Item 14 is EMOTIONAL.
-clc;
+% clc;   % disabled so earlier output stays visible
 
 
 fprintf('\n\n#################################################################\n');
@@ -1035,7 +1040,7 @@ if isempty(nom), fprintf('  none\n'); else, disp(nom); end
 
 
 % 8) SAVE
-% 
+%
 % writetable(Sub,       fullfile(RESULTS_DIR, 'Point16_scores.csv'));
 % writetable(SubMerged, fullfile(RESULTS_DIR, 'Point16_scores_with_HbO.csv'));
 % writetable(R,         fullfile(RESULTS_DIR, 'Point16_correlations.csv'));
@@ -1083,12 +1088,12 @@ ptaC = AudTbl.PTA(locC);  ageC = AudTbl.Age(locC);
 
 fprintf('\nCovariates attached: %d tinnitus, %d control (all matched)\n', ...
     numel(ptaT), numel(ptaC));
+fprintf('Participants without PTA-4 (dropped from adjusted models): %d tinnitus, %d control\n', ...
+    sum(~isfinite(ptaT)), sum(~isfinite(ptaC)));
 
 PTA = [ptaT; ptaC];
 AGE = [ageT; ageC];
 GRP = [ones(numel(ptaT),1); zeros(numel(ptaC),1)];
-
-% ---- helper: one between-group comparison, unadj vs adj ----
 
 % ---- 1) ROI-SEED POOLED ----
 
@@ -1173,8 +1178,6 @@ fprintf('#################################################################\n');
 %    tEpoch
 %    CTRL_ROI_BBN,  CTRL_ROI_ISR,  CTRL_NROI_BBN,  CTRL_NROI_ISR
 %    TINN_ROI_BBN,  TINN_ROI_ISR,  TINN_NROI_BBN,  TINN_NROI_ISR
-%    ControlData, TinnitusData, roi_final, nonroi_final,
-%    nonroi_final_tinn, roi_fixed
 
 
 fprintf(' BETWEEN-GROUP HbO WITH AGE AS COVARIATE (ANCOVA)\n');
