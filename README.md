@@ -10,13 +10,13 @@ The study compared 27 adults with chronic bilateral non-pulsatile tinnitus again
 
 - MATLAB R2024b
 - Statistics and Machine Learning Toolbox
-- [NIRS Brain AnalyzIR Toolbox](https://github.com/huppertt/nirs-toolbox), on the MATLAB path
+- [NIRS Brain AnalyzIR Toolbox](https://github.com/huppertt/nirs-toolbox) at commit `995f95e8`, on the MATLAB path. Later versions of the toolbox register the probe to the Colin27 atlas differently and assign different atlas labels to some channels, which changes the control-group ROI, the non-ROI channel sets and the lobe groupings. The published values are reproduced only with this commit.
 
 ## Input data
 
 Neither input file is held in this repository.
 
-**fNIRS recordings.** The per-participant NIRx recordings are deposited on OpenNeuro under accession [ds007990](https://openneuro.org/datasets/ds007990). The scripts do not read those directories directly. They read `Aim1_raw_loaded_new_03_17_new.mat`, which holds the recordings as an array of `nirs.core.Data` objects together with the participant demographics table. To build that file, download the OpenNeuro dataset, then uncomment and run the loading block at the top of `rsfc_analysis.m`, setting `rootFolder` to the downloaded folder. It calls `nirs.io.loadDirectory` with a group and subject folder hierarchy, populates three missing subject identifiers, and saves the result. All preprocessing is performed afterwards by the scripts.
+**fNIRS recordings.** The per-participant NIRx recordings are deposited on OpenNeuro under accession [ds007990](https://openneuro.org/datasets/ds007990). The scripts do not read those directories directly. They read `Aim1_raw_loaded_new_03_17_new.mat`, which holds the recordings as an array of `nirs.core.Data` objects together with the participant demographics table. To build that file, download the OpenNeuro dataset, then uncomment and run the loading block at the top of `RSFC_Code.m`, setting `rootFolder` to the downloaded folder. It calls `nirs.io.loadDirectory` with a group and subject folder hierarchy, populates three missing subject identifiers, and saves the result. All preprocessing is performed afterwards by the scripts.
 
 **Questionnaire responses.** `SubjectiveAndSomatic_DATA_2026-01-15_1203.csv` is the REDCap export of the THI and TFI responses, published with the article as Supporting Information.
 
@@ -65,6 +65,14 @@ TFI scores were normally distributed and are analysed with Pearson correlations.
 ## Notes
 
 Preprocessing is repeated in scripts 1 and 2 rather than shared, because the two analyses were developed separately and the duplication keeps each script runnable on its own. The preprocessing parameters are the same in both.
+
+To install the required toolbox version, clone the toolbox and check out the commit before adding it to the MATLAB path:
+
+    git clone https://github.com/huppertt/nirs-toolbox.git
+    cd nirs-toolbox
+    git checkout 995f95e8
+
+To confirm the correct version is in use, run `Hemodynamic_response_code.m` and check the `roi_fixed channel mapping` printout. Channel 8 (source 3, detector 7) should be labelled `Angular_L`. If it is labelled `Occipital_Mid_L`, a different toolbox version is on the path.
 
 
 ## License
